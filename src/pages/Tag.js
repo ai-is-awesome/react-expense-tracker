@@ -2,10 +2,12 @@ import React, { useState } from "react";
 
 export default function Tag() {
   const tagArray = ["finance", "hobbies", "whatever"];
-  const [filteredTags, setFilteredTags] = useState([]);
+
   const [userTagInput, setUserTagInput] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-
+  let filteredTags = tagArray.filter(
+    (elem) => elem.startsWith(userTagInput) && !selectedTags.includes(elem)
+  );
   function removeItemOnce(arr, value) {
     var index = arr.indexOf(value);
     if (index > -1) {
@@ -18,7 +20,7 @@ export default function Tag() {
   const filterTagsHandler = (e) => {
     setUserTagInput(e.target.value);
     console.log("selected tag inside filter: ", selectedTags);
-    setFilteredTags(
+    filteredTags = filteredTags.filter(
       tagArray.filter(
         (elem) =>
           elem.startsWith(e.target.value) && !selectedTags.includes(elem)
@@ -29,7 +31,9 @@ export default function Tag() {
 
   const addTagHandler = (e, elem) => {
     e.preventDefault();
-    setFilteredTags(removeItemOnce(filteredTags, elem));
+    const newFilteredTags = removeItemOnce(filteredTags, elem);
+    console.log("tags to remove: ", newFilteredTags);
+    filteredTags = newFilteredTags;
     setSelectedTags(selectedTags.concat(elem));
   };
   return (
