@@ -1,5 +1,6 @@
 import Dashboard from "./pages/Dashboard";
 import TransactionRecord from "./pages/TransactionRecord";
+import Navbar from "./pages/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
             />
           }
         />
+        <Route path="navbar" element={<Navbar />} />
       </Routes>
     </BrowserRouter>
   );
