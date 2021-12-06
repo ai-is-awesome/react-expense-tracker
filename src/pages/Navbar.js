@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 export default function Navbar() {
   return (
-    <div className="flex flex-row justify-between p-6 mb-12 bg-gray-100 shadow-md ">
+    <div className="flex flex-row justify-between p-6 mb-12   ">
       <div className="flex flex-row items-center">
         <div className="mr-4">LOGO</div>
         <div className="text-4xl uppercase tracking-wider">Money Manager</div>

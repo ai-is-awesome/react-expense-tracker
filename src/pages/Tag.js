@@ -4,18 +4,22 @@ import theme from "./theme";
 
 const { color1, color2, color3, color4 } = theme;
 
-export default function Tag() {
+export default function Tag({ tagsHandler }) {
   const tagArray = ["finance", "hobbies", "food", "shopping", "tatiya"];
 
+  // States
   const [userTagInput, setUserTagInput] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [showFilteredTags, setShowFilteredTags] = useState(false);
+
   let filteredTags = tagArray.filter(
     (elem) => elem.startsWith(userTagInput) && !selectedTags.includes(elem)
   );
 
   // console.log("filtered tags in parent: ", filteredTags);
   // console.log("selected tags in parent: ", selectedTags);
+
+  // Handlers / Functions
   function removeItemOnce(arr, value) {
     var index = arr.indexOf(value);
     if (index > -1) {
@@ -23,13 +27,16 @@ export default function Tag() {
     }
     return arr;
   }
+
   const selectedTagClickHandler = (tag) => {
     // setSelectedTags(removeItemOnce(selectedTags, tag));
-    setSelectedTags(selectedTags.filter((t) => t !== tag));
+    const remainingTags = selectedTags.filter((t) => t !== tag);
+    setSelectedTags(remainingTags);
+    tagsHandler(remainingTags);
+
     // console.log("filtered tags when clicking on selectedTag", filteredTags);
   };
 
-  // console.log("selected: ", selectedTags, "filter: ", filteredTags);
   const filterTagsHandler = (e) => {
     setUserTagInput(e.target.value);
     // console.log("selected tag inside filter: ", selectedTags);
@@ -44,7 +51,9 @@ export default function Tag() {
     const newFilteredTags = removeItemOnce(filteredTags, elem);
     console.log("tags to remove: ", newFilteredTags);
     filteredTags = newFilteredTags;
-    setSelectedTags(selectedTags.concat(elem));
+    const tags = selectedTags.concat(elem);
+    setSelectedTags(tags);
+    tagsHandler(tags);
     setUserTagInput("");
   };
 

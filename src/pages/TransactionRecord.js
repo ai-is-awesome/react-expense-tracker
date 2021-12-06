@@ -1,5 +1,6 @@
 import React from "react";
 import TagButton from "./TagButton";
+import theme from "./theme";
 export default function TransactionRecord({
   transactionName,
   transactionAmount,
@@ -7,14 +8,15 @@ export default function TransactionRecord({
   tags,
 }) {
   return (
-    //   Full pagd div
+    //   Full page div
     <div className="">
       {/* Container*/}
       <div
-        className="shadow-lg px-4 py-2 rounded-lg mb-4"
+        className="shadow-lg text-white px-4 py-2 rounded-lg mb-4"
         style={{
           width: "30vw",
-          backgroundColor: "rgb(238, 235, 221)",
+          backgroundImage:
+            "linear-gradient(to right, rgb(186, 173, 117), rgb(153, 139, 77))",
         }}
       >
         <div className="flex flex-row justify-between">
@@ -23,11 +25,9 @@ export default function TransactionRecord({
             {transactionName}
           </div>
         </div>
-        <div>{JSON.stringify(transactionDate.toString())}</div>
+        <div>{transactionDate.toDateString()}</div>
 
-        {tags.map((tag) => (
-          <TagButton tagName={tag} />
-        ))}
+        {tags && tags.map((tag) => <TagButton tagName={tag} />)}
 
         {/* <button className="bg-gray-100 mr-2 rounded-lg px-2 py-1 mb-2 mt-2">
           Tag
