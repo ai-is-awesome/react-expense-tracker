@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
+import Input from "./Input";
 import theme from "./theme";
 
 const { color1, color2, color3, color4 } = theme;
@@ -60,11 +61,9 @@ export default function Tag({ tagsHandler }) {
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-row justify-center items-center">
-        <input
-          type="text"
-          className="bg-gray-100 rounded-lg py-3 px-4 my-4 mr-3"
+        <Input
           placeholder="Enter Tags(if any)"
-          onChange={filterTagsHandler}
+          onChangeHandler={filterTagsHandler}
           value={userTagInput}
         />
         <BsFillArrowDownCircleFill

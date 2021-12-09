@@ -12,18 +12,14 @@ export default function TransactionRecord({
     <div className="">
       {/* Container*/}
       <div
-        className="shadow-lg text-white px-4 py-2 rounded-lg mb-4"
+        className="shadow-lg text-white px-4 py-4 rounded-lg mb-4 bg-purple-500"
         style={{
           width: "30vw",
-          backgroundImage:
-            "linear-gradient(to right, rgb(186, 173, 117), rgb(153, 139, 77))",
         }}
       >
         <div className="flex flex-row justify-between">
           <div className="text-xl font-bold">₹ {transactionAmount}</div>
-          <div className="text-lg" style={{ color: "#007774" }}>
-            {transactionName}
-          </div>
+          <div className="text-lg text-white">{transactionName}</div>
         </div>
         <div>{transactionDate.toDateString()}</div>
 

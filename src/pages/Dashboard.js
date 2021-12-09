@@ -8,6 +8,7 @@ import Message from "./Message";
 import TransactionRecord from "./TransactionRecord";
 import { useEffect } from "react/cjs/react.development";
 import Navbar from "./Navbar";
+import Input from "./Input";
 
 const { color1, color2, color3, color4 } = theme;
 
@@ -73,18 +74,19 @@ export default function Dashboard() {
   return (
     <div>
       <Navbar />
-      <div className="flex flex-row m-4" style={{ height: "", width: "60vw" }}>
+      <div
+        className="flex flex-row sm:flex-column m-4"
+        style={{ height: "", width: "" }}
+      >
         <form
-          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center bg-gray-100"
+          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center "
           style={{}}
           onSubmit={formHander}
         >
           <div>
-            <input
-              type="text"
-              className="bg-gray-100 rounded-lg py-3 px-4 my-4"
+            <Input
               placeholder="Enter Amount"
-              onChange={(e) =>
+              onChangeHandler={(e) =>
                 setFormState({
                   ...formState,
                   transactionAmount: e.target.value,
@@ -94,11 +96,9 @@ export default function Dashboard() {
             />
           </div>
           <div>
-            <input
-              type="text"
-              className="bg-gray-100 rounded-lg py-3 px-4 my-4"
+            <Input
               placeholder="Enter Transaction Name"
-              onChange={(e) =>
+              onChangeHandler={(e) =>
                 setFormState({ ...formState, transactionName: e.target.value })
               }
               value={formState.transactionName}
@@ -108,35 +108,28 @@ export default function Dashboard() {
             <DatePicker
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
-              className="bg-gray-100 rounded-lg py-3 px-4 my-4"
+              className="bg-white shadow-sm  rounded-lg py-3 px-4 my-4"
               id="datepicker"
               ref={datePickerRef}
             />
           </div>
-          <div>
-            <input
-              type="text"
-              className="bg-gray-100 rounded-lg py-3 px-4 my-4"
-              placeholder="Enter Tags(if any)"
-            />
-          </div>
+
           <Tag tagsHandler={tagsHandler} />
           <div className="flex flex-row justify-center">
             <button
-              className="px-20 py-3 text-center rounded-xl text-lg"
-              style={{ backgroundColor: yellow500, color: "white" }}
+              className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white"
+              // style={{ backgroundColor: yellow500, color: "white" }}
             >
               Submit
             </button>
           </div>
 
           {errors.length !== 0 && <Message message={errors[0]} />}
-          {errors.length === 0 ? "LEN 0" : errors.length}
         </form>
         {/* Transactions */}
 
-        <div className="flex flex-col items-center">
-          <h1 className="mt-4 text-2xl font-bold">Check your transactions!</h1>
+        <div className="flex flex-col items-center w-full  rounded-lg">
+          <h1 className="my-4 text-2xl font-bold">Check your transactions!</h1>
           {transactions.map((transaction) => (
             <TransactionRecord
               transactionAmount={transaction.amount}
