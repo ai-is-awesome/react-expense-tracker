@@ -2,8 +2,10 @@ import Dashboard from "./pages/Dashboard";
 import TransactionRecord from "./pages/TransactionRecord";
 import Navbar from "./pages/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import firebaseConfig from "./firebase";
 
 function App() {
+  console.log(firebaseConfig);
   return (
     <BrowserRouter>
       <Routes>
