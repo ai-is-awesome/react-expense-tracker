@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import theme, { yellow500 } from "./theme";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,10 +9,14 @@ import TransactionRecord from "./TransactionRecord";
 import { useEffect } from "react/cjs/react.development";
 import Navbar from "./Navbar";
 import Input from "./Input";
+import AuthContext from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import Logout from "./Logout";
 
 const { color1, color2, color3, color4 } = theme;
-
 export default function Dashboard() {
+  const { user, authReady } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const datePickerRef = useRef(null);
   const [errors, setErrors] = useState([]);
@@ -29,6 +33,10 @@ export default function Dashboard() {
 
   if (datePickerRef.current !== null) {
     document.getElementById("datepicker").setAttribute("readonly", "readonly");
+  }
+
+  if (authReady === true && user === null) {
+    navigate("/login");
   }
 
   const tagsHandler = (arr) => {
@@ -71,6 +79,12 @@ export default function Dashboard() {
     }
   };
 
+  if (authReady === false) {
+    return <div>Loading</div>;
+  }
+  if (authReady === true && user === null) {
+    return <div>You must be logged in to view contents of this page!</div>;
+  }
   return (
     <div>
       <Navbar />
@@ -127,7 +141,8 @@ export default function Dashboard() {
           {errors.length !== 0 && <Message message={errors[0]} />}
         </form>
         {/* Transactions */}
-
+        User is: {user.email}
+        <Logout />
         <div className="flex flex-col items-center w-full  rounded-lg">
           <h1 className="my-4 text-2xl font-bold">Check your transactions!</h1>
           {transactions.map((transaction) => (

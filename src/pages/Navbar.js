@@ -10,7 +10,8 @@ export default function Navbar() {
       </div>
       <div className="flex flex-row items-center">
         <FaUserCircle
-          style={{ width: "40px", height: "40px", color: "#79776a" }}
+          className="text-indigo-700"
+          style={{ width: "50px", height: "50px", cursor: "pointer" }}
         />
       </div>
     </div>

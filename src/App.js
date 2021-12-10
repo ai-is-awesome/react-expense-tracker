@@ -3,9 +3,13 @@ import TransactionRecord from "./pages/TransactionRecord";
 import Navbar from "./pages/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import firebaseConfig from "./firebase";
+import AuthContext from "./Context/AuthContext";
+import { useContext } from "react";
+import Login from "./pages/Login";
 
 function App() {
-  console.log(firebaseConfig);
+  const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <BrowserRouter>
       <Routes>
@@ -22,6 +26,7 @@ function App() {
           }
         />
         <Route path="navbar" element={<Navbar />} />
+        <Route path="login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

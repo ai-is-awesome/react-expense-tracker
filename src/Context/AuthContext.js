@@ -3,6 +3,7 @@ import firebase from "firebase";
 import "firebase/auth";
 import firebaseConfig from "../firebase";
 
+
 const AuthContext = createContext({
   user: null,
   login: () => {},
