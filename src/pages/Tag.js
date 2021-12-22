@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { BsFillArrowDownCircleFill } from "react-icons/bs";
 import Input from "./Input";
+import TagButton from "./TagButton";
 import theme from "./theme";
 
 const { color1, color2, color3, color4 } = theme;
 
 export default function Tag({ tagsHandler }) {
-  const tagArray = ["finance", "hobbies", "food", "shopping", "tatiya"];
+  const tagArray = ["finance", "hobbies", "food", "shopping", "bar", "cafes"];
 
   // States
   const [userTagInput, setUserTagInput] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const [showFilteredTags, setShowFilteredTags] = useState(false);
+  const [showFilteredTags, setShowFilteredTags] = useState(true);
 
   let filteredTags = tagArray.filter(
     (elem) => elem.startsWith(userTagInput) && !selectedTags.includes(elem)
@@ -73,12 +74,12 @@ export default function Tag({ tagsHandler }) {
         />
       </div>
       {/* Selected Tags */}
-      <div className="mb-2">
+      <div className="mb-2 flex flex-wrap">
         {selectedTags.map((tag) => (
           <span
-            className="bg-green-400 text-white mr-2 rounded-lg px-1 py-1"
+            className="bg-green-400 text-white mr-2 mb-2 text-center rounded-lg px-2 py-1"
             onClick={() => selectedTagClickHandler(tag)}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", minWidth: "100px" }}
           >
             {tag}
           </span>
@@ -86,16 +87,24 @@ export default function Tag({ tagsHandler }) {
       </div>
       {/* Filtered Tags */}
       {showFilteredTags === true && (
-        <div className="mb-3">
+        <div className="mb-3 text-center">
           {filteredTags.map((elem) => (
-            <button
-              className="bg-gray-100 mr-2 rounded-lg px-1 py-1 mb-2"
-              onClick={(e) => {
+            // <button
+            //   className="bg-gray-200 mr-2 rounded-lg px-2 py-1 mb-2"
+            //   onClick={(e) => {
+            //     addTagHandler(e, elem);
+            //   }}
+            // >
+            //   {elem}
+            // </button>
+            <TagButton
+              tagName={elem}
+              textColor={"text-white"}
+              backgroundColor={"bg-gray-400"}
+              onClickHandler={(e) => {
                 addTagHandler(e, elem);
               }}
-            >
-              {elem}
-            </button>
+            />
           ))}
         </div>
       )}

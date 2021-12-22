@@ -1,8 +1,25 @@
 import React from "react";
+import clsx from "clsx";
 
-export default function TagButton({ tagName, textColor, backgroundColor }) {
+export default function TagButton({
+  tagName,
+  textColor,
+  backgroundColor,
+  isPointer,
+  onClickHandler,
+}) {
+  const classes = clsx(
+    "mr-2 mb-2 rounded-lg px-2 py-1 mb-2",
+    textColor,
+    backgroundColor ? backgroundColor : "bg-green-400",
+    isPointer === false ? "cursor-auto" : "cursor-pointer"
+  );
   return (
-    <button className="bg-green-400 mr-2 rounded-lg px-2 py-1 mb-2">
+    <button
+      className={classes}
+      style={{ minWidth: "100px" }}
+      onClick={onClickHandler}
+    >
       {tagName}
     </button>
   );

@@ -6,6 +6,7 @@ import firebaseConfig from "./firebase";
 import AuthContext from "./Context/AuthContext";
 import { useContext } from "react";
 import Login from "./pages/Login";
+import SignUp from "./pages/Signup";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -27,6 +28,7 @@ function App() {
         />
         <Route path="navbar" element={<Navbar />} />
         <Route path="login" element={<Login />} />
+        <Route path="signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

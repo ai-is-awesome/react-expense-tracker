@@ -6,7 +6,7 @@ import Tag from "./Tag";
 import { BiErrorCircle } from "react-icons/bi";
 import Message from "./Message";
 import TransactionRecord from "./TransactionRecord";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 import Navbar from "./Navbar";
 import Input from "./Input";
 import AuthContext from "../Context/AuthContext";
@@ -37,6 +37,17 @@ export default function Dashboard() {
 
   if (authReady === true && user === null) {
     navigate("/login");
+  }
+
+  function commafy(num) {
+    var str = num.toString().split(".");
+    if (str[0].length >= 5) {
+      str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, "$1,");
+    }
+    if (str[1] && str[1].length >= 5) {
+      str[1] = str[1].replace(/(\d{3})/g, "$1 ");
+    }
+    return str.join(".");
   }
 
   const tagsHandler = (arr) => {
@@ -86,7 +97,7 @@ export default function Dashboard() {
     return <div>You must be logged in to view contents of this page!</div>;
   }
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <Navbar />
       <div
         className="flex flex-row sm:flex-column m-4"
@@ -138,11 +149,12 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {errors.length !== 0 && <Message message={errors[0]} />}
+          {errors.length !== 0 && (
+            <Message message={errors[0]} type={"error"} />
+          )}
         </form>
         {/* Transactions */}
-        User is: {user.email}
-        <Logout />
+
         <div className="flex flex-col items-center w-full  rounded-lg">
           <h1 className="my-4 text-2xl font-bold">Check your transactions!</h1>
           {transactions.map((transaction) => (

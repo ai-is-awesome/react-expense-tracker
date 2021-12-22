@@ -3,7 +3,6 @@ import firebase from "firebase";
 import "firebase/auth";
 import firebaseConfig from "../firebase";
 
-
 const AuthContext = createContext({
   user: null,
   login: () => {},
@@ -42,12 +41,16 @@ export const AuthContextProvider = ({ children }) => {
       .then((user) => setUser(user));
   }
 
+  function login(email, password) {
+    return firebaseInstance.auth().signInWithEmailAndPassword(email, password);
+  }
+
   firebaseInstance.auth().onAuthStateChanged((user) => {
     setUser(user);
     setAuthReady(true);
   });
 
-  const context = { user, authReady, signOut, signUp };
+  const context = { user, authReady, signOut, signUp, login };
 
   return (
     <AuthContext.Provider value={context}>{children}</AuthContext.Provider>

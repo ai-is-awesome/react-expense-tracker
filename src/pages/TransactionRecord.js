@@ -23,7 +23,8 @@ export default function TransactionRecord({
         </div>
         <div>{transactionDate.toDateString()}</div>
 
-        {tags && tags.map((tag) => <TagButton tagName={tag} />)}
+        {tags &&
+          tags.map((tag) => <TagButton tagName={tag} isPointer={false} />)}
 
         {/* <button className="bg-gray-100 mr-2 rounded-lg px-2 py-1 mb-2 mt-2">
           Tag
