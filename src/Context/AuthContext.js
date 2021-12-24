@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import firebase from "firebase";
 import "firebase/auth";
 import firebaseConfig from "../firebase";
+import firebaseInstance from "../firebase";
 
 const AuthContext = createContext({
   user: null,
@@ -16,18 +17,6 @@ let instance;
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [authReady, setAuthReady] = useState(false);
-
-  function getFirebase() {
-    if (typeof window !== "undefined") {
-      if (instance) return instance;
-      instance = firebase.initializeApp(firebaseConfig);
-      return instance;
-    }
-
-    return null;
-  }
-
-  const firebaseInstance = getFirebase();
 
   function signOut() {
     firebaseInstance.auth().signOut();

@@ -12,6 +12,7 @@ import Input from "./Input";
 import AuthContext from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Logout from "./Logout";
+import { getAllTransactions, addTransaction } from "../firebase/db";
 
 const { color1, color2, color3, color4 } = theme;
 export default function Dashboard() {
@@ -80,6 +81,7 @@ export default function Dashboard() {
       resetForm();
     }
   };
+  const transactionsdb = getAllTransactions();
 
   const getFormErrors = () => {
     const transactionAmount = formState.transactionAmount;

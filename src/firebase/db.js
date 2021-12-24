@@ -1,16 +1,33 @@
-import firebaseConfig from "../firebase";
+import firebaseInstance from "../firebase";
 import firebase from "firebase";
+require("firebase/firestore");
 
-let instance;
+const db = firebase.firestore();
 
-const getFirebase = () => {
-  if (typeof window === undefined) {
-    return null;
+export const addTransaction = async (
+  transactionAmount,
+  transactionName,
+  tags
+) => {
+  try {
+    const docRef = await db.collection("transactions").add({
+      transactionName,
+      transactionAmount,
+      tags,
+    });
+
+    return docRef;
+  } catch (e) {
+    return e;
   }
-  if (instance) {
-    return instance;
-  } else {
-    instance = firebase.initializeApp(firebaseConfig);
-    return instance;
-  }
+};
+
+export const getAllTransactions = () => {
+  db.collection("transactions")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log("doc: ", doc.data());
+      });
+    });
 };
