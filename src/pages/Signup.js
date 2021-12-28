@@ -14,7 +14,10 @@ export default function SignUp() {
 
   const signUpHandler = (e) => {
     e.preventDefault();
-    signUp(email, password).then(() => navigate(""));
+    signUp(email, password).then(() => {
+      console.log("sign up success!");
+      navigate("/");
+    });
   };
 
   if (authReady === true && user !== null) {

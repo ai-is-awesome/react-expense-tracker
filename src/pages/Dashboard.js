@@ -51,6 +51,23 @@ export default function Dashboard() {
     return str.join(".");
   }
 
+  const getTransactions = () => {
+    getAllTransactions().then((snapshot) => {
+      snapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        const data = doc.data();
+        console.log("data: ", data);
+        setTransactions((previousTransaction) =>
+          previousTransaction.concat(data)
+        );
+      });
+    });
+  };
+
+  useEffect(() => {
+    setTransactions([]);
+    getTransactions();
+  }, []);
   const tagsHandler = (arr) => {
     setSelectedTags(arr);
   };
@@ -76,12 +93,19 @@ export default function Dashboard() {
         tags: selectedTags,
       };
 
+      addTransaction(d.amount, d.name)
+        .then((ref) => {
+          console.log("doc created!", ref);
+          setErrors((prev) => prev.concat("Successfully created"));
+        })
+        .catch((e) => setErrors((prev) => prev.concat(e.message)));
       setTransactions((previousValue) => previousValue.concat(d));
+
       setFormState({ ...formState, transactionAmount: "" });
+
       resetForm();
     }
   };
-  const transactionsdb = getAllTransactions();
 
   const getFormErrors = () => {
     const transactionAmount = formState.transactionAmount;
@@ -161,10 +185,10 @@ export default function Dashboard() {
           <h1 className="my-4 text-2xl font-bold">Check your transactions!</h1>
           {transactions.map((transaction) => (
             <TransactionRecord
-              transactionAmount={transaction.amount}
-              transactionDate={formState.transactionDate}
+              transactionAmount={transaction.transactionAmount}
+              transactionDate={new Date(transaction.timeStamp)}
               tags={transaction.tags}
-              transactionName={transaction.name}
+              transactionName={transaction.transactionName}
             />
           ))}
         </div>
