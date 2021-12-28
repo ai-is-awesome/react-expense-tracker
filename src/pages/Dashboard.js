@@ -96,10 +96,10 @@ export default function Dashboard() {
       addTransaction(d.amount, d.name)
         .then((ref) => {
           console.log("doc created!", ref);
+          setTransactions((previousValue) => previousValue.concat(d));
           setErrors((prev) => prev.concat("Successfully created"));
         })
         .catch((e) => setErrors((prev) => prev.concat(e.message)));
-      setTransactions((previousValue) => previousValue.concat(d));
 
       setFormState({ ...formState, transactionAmount: "" });
 
@@ -130,7 +130,7 @@ export default function Dashboard() {
         style={{ height: "", width: "" }}
       >
         <form
-          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center "
+          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center  bg-white"
           style={{}}
           onSubmit={formHander}
         >

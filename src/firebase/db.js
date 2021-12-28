@@ -3,7 +3,11 @@ import firebase from "firebase";
 import { validateObject } from "../utils";
 require("firebase/firestore");
 
-const db = firebase.firestore();
+let db;
+if (!db) {
+  db = firebase.firestore();
+} else {
+}
 
 export const getAllTransactions = async () => {
   return db.collection("transactions").get();
