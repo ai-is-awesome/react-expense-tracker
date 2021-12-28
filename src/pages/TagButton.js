@@ -7,6 +7,7 @@ export default function TagButton({
   backgroundColor,
   isPointer,
   onClickHandler,
+  style,
 }) {
   const classes = clsx(
     "mr-2 mb-2 rounded-lg px-2 py-1 mb-2",
@@ -19,6 +20,7 @@ export default function TagButton({
       className={classes}
       style={{ minWidth: "100px" }}
       onClick={onClickHandler}
+      style={style}
     >
       {tagName}
     </button>

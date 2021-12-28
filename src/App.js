@@ -7,6 +7,7 @@ import AuthContext from "./Context/AuthContext";
 import { useContext } from "react";
 import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
+import Spinner from "./pages/Spinner";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -29,6 +30,7 @@ function App() {
         <Route path="navbar" element={<Navbar />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
+        <Route path="spinner" element={<Spinner />} />
       </Routes>
     </BrowserRouter>
   );
