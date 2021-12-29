@@ -68,6 +68,7 @@ export default function Dashboard() {
     setTransactions([]);
     getTransactions();
   }, []);
+
   const tagsHandler = (arr) => {
     setSelectedTags(arr);
   };

@@ -30,7 +30,7 @@ function App() {
         <Route path="navbar" element={<Navbar />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="spinner" element={<Spinner />} />
+        <Route path="spinner" element={<Spinner spinnerType="BeatLoader" />} />
       </Routes>
     </BrowserRouter>
   );
