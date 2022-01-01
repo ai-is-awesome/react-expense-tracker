@@ -13,6 +13,7 @@ import AuthContext from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Logout from "./Logout";
 import { getAllTransactions, addTransaction } from "../firebase/db";
+import Spinner from "./Spinner";
 
 const { color1, color2, color3, color4 } = theme;
 export default function Dashboard() {
@@ -23,6 +24,8 @@ export default function Dashboard() {
   const [errors, setErrors] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [loadingTransactions, setLoadingTransactions] = useState(true);
+  const [loadingFormSubmit, setLoadingFormSubmit] = useState(false);
 
   const [formState, setFormState] = useState({
     transactionAmount: "",
@@ -61,6 +64,7 @@ export default function Dashboard() {
           previousTransaction.concat(data)
         );
       });
+      setLoadingTransactions(false);
     });
   };
 
@@ -88,6 +92,7 @@ export default function Dashboard() {
     console.log("if statement reached: ", errors === [], errors);
     setErrors(getFormErrors());
     if (errors.length === 0) {
+      setLoadingFormSubmit(true);
       const d = {
         amount: formState.transactionAmount,
         name: formState.transactionName,
@@ -100,7 +105,10 @@ export default function Dashboard() {
           setTransactions((previousValue) => previousValue.concat(d));
           setErrors((prev) => prev.concat("Successfully created"));
         })
-        .catch((e) => setErrors((prev) => prev.concat(e.message)));
+        .catch((e) => setErrors((prev) => prev.concat(e.message)))
+        .finally(() => {
+          setLoadingFormSubmit(false);
+        });
 
       setFormState({ ...formState, transactionAmount: "" });
 
@@ -118,7 +126,11 @@ export default function Dashboard() {
   };
 
   if (authReady === false) {
-    return <div>Loading</div>;
+    return (
+      <div className="flex flex-row items-center justify-center h-screen">
+        <Spinner spinnerType={"PulseLoader"} spinnerSize={"lg"} />
+      </div>
+    );
   }
   if (authReady === true && user === null) {
     return <div>You must be logged in to view contents of this page!</div>;
@@ -168,12 +180,18 @@ export default function Dashboard() {
 
           <Tag tagsHandler={tagsHandler} />
           <div className="flex flex-row justify-center">
+            <div></div>
             <button
               className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white"
               // style={{ backgroundColor: yellow500, color: "white" }}
             >
               Submit
             </button>
+            {loadingFormSubmit === true && (
+              <div className="flex flex-row items-center ml-2">
+                <Spinner spinnerType="BeatLoader" />
+              </div>
+            )}
           </div>
 
           {errors.length !== 0 && (
@@ -184,14 +202,21 @@ export default function Dashboard() {
 
         <div className="flex flex-col items-center w-full  rounded-lg">
           <h1 className="my-4 text-2xl font-bold">Check your transactions!</h1>
-          {transactions.map((transaction) => (
-            <TransactionRecord
-              transactionAmount={transaction.transactionAmount}
-              transactionDate={new Date(transaction.timeStamp)}
-              tags={transaction.tags}
-              transactionName={transaction.transactionName}
-            />
-          ))}
+
+          {loadingTransactions === false &&
+            transactions.map((transaction) => (
+              <TransactionRecord
+                transactionAmount={transaction.transactionAmount}
+                transactionDate={new Date(transaction.timeStamp)}
+                tags={transaction.tags}
+                transactionName={transaction.transactionName}
+              />
+            ))}
+          {loadingTransactions === true && (
+            <div className="mt-8">
+              <Spinner spinnerType="PulseLoader" spinnerSize={"lg"} />
+            </div>
+          )}
         </div>
       </div>
     </div>
