@@ -1,6 +1,8 @@
 import userEvent from "@testing-library/user-event";
 import React, { useContext } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { BsBarChartLineFill } from "react-icons/bs";
+
 import { useState } from "react";
 import AuthContext from "../Context/AuthContext";
 import Logout from "./Logout";
@@ -19,7 +21,7 @@ export default function Navbar() {
       </div>
       <div className="flex flex-row items-center">
         {user !== null && (
-          <div className="flex flex-col">
+          <div className="flex flex-col relative">
             <FaUserCircle
               className="text-indigo-700"
               style={{ width: "50px", height: "50px", cursor: "pointer" }}
@@ -28,7 +30,10 @@ export default function Navbar() {
               }
             />
             {showUserProfile && (
-              <div className="shadow-md px-12 py-8">
+              <div
+                className="shadow-md px-12 py-8 absolute"
+                style={{ left: "-200px", top: "60px" }}
+              >
                 <div>Welcome {user.email}</div>
                 <Logout />
               </div>

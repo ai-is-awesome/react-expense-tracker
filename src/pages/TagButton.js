@@ -21,6 +21,7 @@ export default function TagButton({
       style={{ minWidth: "100px" }}
       onClick={onClickHandler}
       style={style}
+      type="button"
     >
       {tagName}
     </button>

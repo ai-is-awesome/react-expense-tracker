@@ -7,6 +7,13 @@ export default function TransactionRecord({
   transactionDate,
   tags,
 }) {
+  let dateString;
+  if (transactionDate instanceof Date) {
+    dateString = transactionDate.toDateString();
+  } else {
+    dateString = transactionDate.toDate().toDateString();
+  }
+
   return (
     //   Full page div
     <div className="">
@@ -21,7 +28,7 @@ export default function TransactionRecord({
           <div className="text-xl font-bold">₹ {transactionAmount}</div>
           <div className="text-lg text-white">{transactionName}</div>
         </div>
-        <div>{transactionDate.toDateString()}</div>
+        <div>{dateString}</div>
 
         {tags &&
           tags.map((tag) => <TagButton tagName={tag} isPointer={false} />)}

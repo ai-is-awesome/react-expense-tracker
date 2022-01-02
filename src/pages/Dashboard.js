@@ -33,7 +33,6 @@ export default function Dashboard() {
     transactionDate: selectedDate,
     tags: [],
   });
-  console.log("selectedtags on dash: ", selectedTags);
 
   if (datePickerRef.current !== null) {
     document.getElementById("datepicker").setAttribute("readonly", "readonly");
@@ -94,25 +93,23 @@ export default function Dashboard() {
     if (errors.length === 0) {
       setLoadingFormSubmit(true);
       const d = {
-        amount: formState.transactionAmount,
-        name: formState.transactionName,
+        transactionAmount: Number(formState.transactionAmount),
+        transactionName: formState.transactionName,
         tags: selectedTags,
+        transactionDate: selectedDate,
       };
+      console.log("state: ", d);
 
-      addTransaction(d.amount, d.name)
+      addTransaction(d)
         .then((ref) => {
-          console.log("doc created!", ref);
           setTransactions((previousValue) => previousValue.concat(d));
           setErrors((prev) => prev.concat("Successfully created"));
         })
         .catch((e) => setErrors((prev) => prev.concat(e.message)))
         .finally(() => {
           setLoadingFormSubmit(false);
+          resetForm();
         });
-
-      setFormState({ ...formState, transactionAmount: "" });
-
-      resetForm();
     }
   };
 
@@ -124,6 +121,7 @@ export default function Dashboard() {
       return [];
     }
   };
+  console.log("transactions: ", transactions.slice(0, 5));
 
   if (authReady === false) {
     return (
@@ -142,9 +140,11 @@ export default function Dashboard() {
         className="flex flex-row sm:flex-column m-4"
         style={{ height: "", width: "" }}
       >
+        {/* since form is absolute positioned, the transactions won't be centered properly so an empty div with a height to center the form */}
+        <div style={{ width: "300px" }}></div>
         <form
-          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center  bg-white"
-          style={{}}
+          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center  bg-white fixed"
+          style={{ width: "350px" }}
           onSubmit={formHander}
         >
           <div>
@@ -180,10 +180,9 @@ export default function Dashboard() {
 
           <Tag tagsHandler={tagsHandler} />
           <div className="flex flex-row justify-center">
-            <div></div>
             <button
-              className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white"
-              // style={{ backgroundColor: yellow500, color: "white" }}
+              className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white disabled:text-purple-600"
+              type="submit"
             >
               Submit
             </button>
@@ -207,7 +206,7 @@ export default function Dashboard() {
             transactions.map((transaction) => (
               <TransactionRecord
                 transactionAmount={transaction.transactionAmount}
-                transactionDate={new Date(transaction.timeStamp)}
+                transactionDate={transaction.transactionDate}
                 tags={transaction.tags}
                 transactionName={transaction.transactionName}
               />

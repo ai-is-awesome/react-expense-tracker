@@ -13,13 +13,9 @@ export const getAllTransactions = async () => {
   return db.collection("transactions").get();
 };
 
-export const addTransaction = async (
-  transactionAmount,
-  transactionName,
-  tags
-) => {
+export const addTransaction = async (obj) => {
   try {
-    const obj = { transactionAmount, transactionName, tags };
+    // check if obj has relevant keys here
     const validatedObject = validateObject(obj);
 
     const docRef = await db.collection("transactions").add(validatedObject);

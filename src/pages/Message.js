@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BiErrorCircle } from "react-icons/bi";
 
 export default function Message({ message, type, size }) {
-  console.log(
-    "class name: ",
-    "rounded-md pl-5 pr-6 py-1 my-4 flex flex-row items-center justify-center" +
-      (type === "error" ? "bg-red-500 text-white" : "")
-  );
   return (
     <div
       className={
