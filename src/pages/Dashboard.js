@@ -54,11 +54,11 @@ export default function Dashboard() {
   }
 
   const getTransactions = () => {
-    getAllTransactions().then((snapshot) => {
+    getAllTransactions(user.uid).then((snapshot) => {
       snapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         const data = doc.data();
-        console.log("data: ", data);
+
         setTransactions((previousTransaction) =>
           previousTransaction.concat(data)
         );
@@ -68,9 +68,11 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    setTransactions([]);
-    getTransactions();
-  }, []);
+    if (authReady === true) {
+      setTransactions([]);
+      getTransactions();
+    }
+  }, [authReady]);
 
   const tagsHandler = (arr) => {
     setSelectedTags(arr);
@@ -88,7 +90,6 @@ export default function Dashboard() {
   const formHander = (e) => {
     e.preventDefault();
     const errors = getFormErrors();
-    console.log("if statement reached: ", errors === [], errors);
     setErrors(getFormErrors());
     if (errors.length === 0) {
       setLoadingFormSubmit(true);
@@ -97,8 +98,8 @@ export default function Dashboard() {
         transactionName: formState.transactionName,
         tags: selectedTags,
         transactionDate: selectedDate,
+        firebaseUID: user.uid,
       };
-      console.log("state: ", d);
 
       addTransaction(d)
         .then((ref) => {
@@ -121,7 +122,6 @@ export default function Dashboard() {
       return [];
     }
   };
-  console.log("transactions: ", transactions.slice(0, 5));
 
   if (authReady === false) {
     return (
@@ -133,6 +133,7 @@ export default function Dashboard() {
   if (authReady === true && user === null) {
     return <div>You must be logged in to view contents of this page!</div>;
   }
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />

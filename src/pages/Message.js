@@ -7,7 +7,7 @@ export default function Message({ message, type, size }) {
       className={
         "rounded-md pl-5 pr-6 py-1 my-4 flex flex-row items-center justify-center" +
         " " +
-        (type === "error" ? "bg-red-500 text-white" : "")
+        (type === "error" ? "bg-red-500 text-white" : "bg-green-500 text-white")
       }
     >
       <span className="px-1">

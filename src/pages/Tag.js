@@ -99,8 +99,8 @@ export default function Tag({ tagsHandler }) {
             // </button>
             <TagButton
               tagName={elem}
-              textColor={"text-white"}
-              backgroundColor={"bg-gray-400"}
+              textColor={""}
+              backgroundColor={"bg-gray-100"}
               onClickHandler={(e) => {
                 addTagHandler(e, elem);
               }}

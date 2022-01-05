@@ -10,7 +10,7 @@ export default function TagButton({
   style,
 }) {
   const classes = clsx(
-    "mr-2 mb-2 rounded-lg px-2 py-1 mb-2",
+    "mr-2 mb-2 rounded-lg px-3 py-1 mb-2",
     textColor,
     backgroundColor ? backgroundColor : "bg-green-400",
     isPointer === false ? "cursor-auto" : "cursor-pointer"

@@ -1,27 +1,47 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import { ReactComponent as Svg } from "./drawing.svg";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import AuthContext from "../Context/AuthContext";
 import { useNavigate } from "react-router";
+import { addUser } from "../firebase/db";
+import Spinner from "./Spinner";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, showError] = useState("");
   const { signUp, user, authReady } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const signUpHandler = (e) => {
     e.preventDefault();
-    signUp(email, password).then(() => {
+    signUp(email, password).then((userdetails) => {
       console.log("sign up success!");
-      navigate("/");
     });
   };
 
+  useEffect(() => {
+    if (user) {
+      console.log(
+        "user from useEffect: ",
+        user,
+        user.email,
+        user.uid,
+        authReady
+      );
+      addUser(user.uid, user.email).finally(() => navigate("/"));
+    }
+  }, [user]);
+
   if (authReady === true && user !== null) {
-    return <div>Already logged in</div>;
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <Spinner spinnerType="BeatLoader" spinnerSize={"xl"} />
+        <div>Creating user profile.... It may take a second or ten!</div>
+      </div>
+    );
   }
   if (authReady !== true) {
     return <div>Loading...</div>;

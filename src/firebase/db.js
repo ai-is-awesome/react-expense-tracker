@@ -9,8 +9,8 @@ if (!db) {
 } else {
 }
 
-export const getAllTransactions = async () => {
-  return db.collection("transactions").get();
+export const getAllTransactions = async (uid) => {
+  return db.collection("transactions").where("firebaseUID", "==", uid).get();
 };
 
 export const addTransaction = async (obj) => {
@@ -25,4 +25,12 @@ export const addTransaction = async (obj) => {
     console.log("firebase saving error!");
     throw e;
   }
+};
+
+export const addUser = async (firebaseUID, email) => {
+  const obj = { firebaseUID, email };
+  const validatedObject = validateObject(obj);
+  console.log("obj: ", obj, "validated:", validatedObject);
+  const docRef = await db.collection("users").add(validatedObject);
+  return docRef;
 };
