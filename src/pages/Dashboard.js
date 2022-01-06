@@ -68,7 +68,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (authReady === true) {
+    if (authReady === true && user !== null) {
       setTransactions([]);
       getTransactions();
     }
@@ -103,7 +103,7 @@ export default function Dashboard() {
 
       addTransaction(d)
         .then((ref) => {
-          setTransactions((previousValue) => previousValue.concat(d));
+          setTransactions((previousValue) => [d, ...previousValue]);
           setErrors((prev) => prev.concat("Successfully created"));
         })
         .catch((e) => setErrors((prev) => prev.concat(e.message)))
@@ -184,6 +184,7 @@ export default function Dashboard() {
             <button
               className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white disabled:text-purple-600"
               type="submit"
+              disabled={true ? loadingFormSubmit : false}
             >
               Submit
             </button>

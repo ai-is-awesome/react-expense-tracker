@@ -10,7 +10,11 @@ if (!db) {
 }
 
 export const getAllTransactions = async (uid) => {
-  return db.collection("transactions").where("firebaseUID", "==", uid).get();
+  return db
+    .collection("transactions")
+    .where("firebaseUID", "==", uid)
+    .orderBy("transactionDate", "desc")
+    .get();
 };
 
 export const addTransaction = async (obj) => {
