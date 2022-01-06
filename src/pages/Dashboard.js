@@ -21,7 +21,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const datePickerRef = useRef(null);
-  const [errors, setErrors] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [loadingTransactions, setLoadingTransactions] = useState(true);
@@ -90,7 +90,8 @@ export default function Dashboard() {
   const formHander = (e) => {
     e.preventDefault();
     const errors = getFormErrors();
-    setErrors(getFormErrors());
+    console.log("errors: ", errors);
+    setMessages(getFormErrors());
     if (errors.length === 0) {
       setLoadingFormSubmit(true);
       const d = {
@@ -104,9 +105,15 @@ export default function Dashboard() {
       addTransaction(d)
         .then((ref) => {
           setTransactions((previousValue) => [d, ...previousValue]);
-          setErrors((prev) => prev.concat("Successfully created"));
+          setMessages((prev) =>
+            prev.concat({ message: "Successfully created", type: "success" })
+          );
         })
-        .catch((e) => setErrors((prev) => prev.concat(e.message)))
+        .catch((e) =>
+          setMessages((prev) =>
+            prev.concat({ message: e.message, type: "error" })
+          )
+        )
         .finally(() => {
           setLoadingFormSubmit(false);
           resetForm();
@@ -117,7 +124,7 @@ export default function Dashboard() {
   const getFormErrors = () => {
     const transactionAmount = formState.transactionAmount;
     if (isNaN(+transactionAmount) || transactionAmount === "") {
-      return ["Please enter a valid amount"];
+      return [{ message: "Please enter a valid amount", type: "error" }];
     } else {
       return [];
     }
@@ -195,8 +202,11 @@ export default function Dashboard() {
             )}
           </div>
 
-          {errors.length !== 0 && (
-            <Message message={errors[0]} type={"error"} />
+          {messages.length !== 0 && (
+            <Message
+              message={messages[0]["message"]}
+              type={messages[0]["type"]}
+            />
           )}
         </form>
         {/* Transactions */}
