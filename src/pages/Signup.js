@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { addUser } from "../firebase/db";
 import Spinner from "./Spinner";
 import SmartButton from "../components/SmartButton";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -106,6 +107,9 @@ export default function SignUp() {
           </div>
         </div>
         <SmartButton buttonText={"SIGN UP!"} loading={loading} />
+        <Link to={"/login"} className="mt-8 text-purple-400">
+          Already Registered, click here to login
+        </Link>
       </form>
       <Svg
         className="hidden lg:block"
