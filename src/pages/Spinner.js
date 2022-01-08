@@ -18,9 +18,13 @@ export default function Spinner({
   const cssString = customCss ? customCss + defaultCssString : defaultCssString;
   const override = css(cssString);
   const [loading, setloading] = useState(true);
-  let [color, setColor] = useState("rgb(168, 85, 247)");
+  let [color, setColor] = useState(
+    spinnerColor ? spinnerColor : "rgb(168, 85, 247)"
+  );
   let size;
   let margin;
+
+  console.log(color);
 
   if (spinnerType === "BeatLoader") {
     if (spinnerSize === "sm") {

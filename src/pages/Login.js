@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import SmartButton from "../components/SmartButton";
 import AuthContext from "../Context/AuthContext";
 import { ReactComponent as Svg } from "./drawing.svg";
 import Message from "./Message";
@@ -9,12 +10,14 @@ import Navbar from "./Navbar";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const [error, setError] = useState("");
 
   const loginHandler = (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     login(email, password)
       .then(() => {
         console.log("logged innnn");
@@ -22,18 +25,21 @@ export default function Login() {
       .catch((e) => {
         console.log("error logging in: ", e.message);
         setError(e.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   return (
-    <div>
+    <div className="lg:h-screen bg-gray-100">
       <Navbar />
-      <div className="flex justify-center items-center h-screen bg-gray-100 ">
+      <div className="flex justify-center items-center">
         <form
-          className="bg-white w-1/3  rounded-md flex flex-col shadow-md items-center p-4 pb-24 mr-8"
+          className="bg-white  md:w-1/2 w-full  rounded-md flex flex-col shadow-md items-center justify-center p-4 pb-24 mr-8 lg:w-1/3 "
           onSubmit={(e) => loginHandler(e)}
         >
-          <div className="text-2xl  font-bold mb-2">Login to Continue!</div>
+          <div className="text-2xl font-bold mb-2">Login to Continue!</div>
           {/* Form Input fields */}
           <div className="m-4 w-full">
             <div
@@ -62,18 +68,14 @@ export default function Login() {
               />
             </div>
           </div>
-          <button
-            className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white "
-            style={{ width: "75%" }}
-          >
-            Login!
-          </button>
+          <SmartButton buttonText="Login!" loading={loading} />
           {error !== "" && <Message message={error} type={"error"} />}
           <Link className="mt-8  text-purple-400" to={"/signup"}>
             Don't have an account? Sign up
           </Link>
         </form>
         <Svg
+          className="hidden lg:block"
           style={{
             width: "500px",
             padding: "0",

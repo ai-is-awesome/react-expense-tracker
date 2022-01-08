@@ -6,20 +6,27 @@ import AuthContext from "../Context/AuthContext";
 import { useNavigate } from "react-router";
 import { addUser } from "../firebase/db";
 import Spinner from "./Spinner";
+import SmartButton from "../components/SmartButton";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, showError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { signUp, user, authReady } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const signUpHandler = (e) => {
+    setLoading(true);
     e.preventDefault();
-    signUp(email, password).then((userdetails) => {
-      console.log("sign up success!");
-    });
+    signUp(email, password)
+      .then((userdetails) => {
+        console.log("sign up success!");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -55,10 +62,10 @@ export default function SignUp() {
         <div className="text-2xl  font-bold mb-2">
           Welcome to EXPENSE TRACKER!
         </div>
-        User : {user === null ? "Logged out!" : user.email}
-        <div className="text-lg mb-2">Signup to continue</div>
+
+        <div className="text-lg mb-2 mt-6">Signup to track expenses!</div>
         {/* Form Input fields */}
-        <div className="m-4 w-full">
+        <div className="mx-4 my-1 w-full">
           <div className="flex flex-col items-center" style={{ width: "100%" }}>
             <div className="font-bold">Email Address</div>
             <input
@@ -98,12 +105,7 @@ export default function SignUp() {
             )}
           </div>
         </div>
-        <button
-          className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white "
-          style={{ width: "75%" }}
-        >
-          Sign Up
-        </button>
+        <SmartButton buttonText={"SIGN UP!"} loading={loading} />
       </form>
       <Svg
         className="hidden lg:block"
