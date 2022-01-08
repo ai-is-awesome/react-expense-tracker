@@ -16,14 +16,9 @@ export default function TransactionRecord({
 
   return (
     //   Full page div
-    <div className="">
+    <div>
       {/* Container*/}
-      <div
-        className="shadow-lg text-white px-4 py-4 rounded-lg mb-4 bg-purple-500"
-        style={{
-          width: "30vw",
-        }}
-      >
+      <div className="dashboard-container shadow-lg text-white px-4 py-4 rounded-lg mb-4 bg-purple-500">
         <div className="flex flex-row justify-between">
           <div className="text-xl font-bold">₹ {transactionAmount}</div>
           <div className="text-lg text-white">{transactionName}</div>

@@ -144,14 +144,11 @@ export default function Dashboard() {
   return (
     <div className="bg-gray-100 min-h-screen">
       <Navbar />
-      <div
-        className="flex flex-row sm:flex-column m-4"
-        style={{ height: "", width: "" }}
-      >
+      <div className="flex lg:flex-row flex-col lg:items-start items-center m-4">
         {/* since form is absolute positioned, the transactions won't be centered properly so an empty div with a height to center the form */}
         <div style={{ width: "300px" }}></div>
         <form
-          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center  bg-white fixed"
+          className="py-8 px-16 rounded-xl shadow-xl flex flex-col items-center  bg-white block lg:fixed"
           style={{ width: "350px" }}
           onSubmit={formHander}
         >
@@ -187,7 +184,7 @@ export default function Dashboard() {
           </div>
 
           <Tag tagsHandler={tagsHandler} />
-          <div className="flex flex-row justify-center">
+          <div className="flex flex-col justify-center">
             <button
               className="px-20 py-3 text-center rounded-xl text-lg bg-purple-500 text-white disabled:text-purple-600"
               type="submit"
@@ -196,7 +193,7 @@ export default function Dashboard() {
               Submit
             </button>
             {loadingFormSubmit === true && (
-              <div className="flex flex-row items-center ml-2">
+              <div className="flex flex-col items-center ml-2 mt-2">
                 <Spinner spinnerType="BeatLoader" />
               </div>
             )}

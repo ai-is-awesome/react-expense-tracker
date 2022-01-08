@@ -1,0 +1,12 @@
+@media (min-width: 340px) {
+  .dashboard-container {
+    width: 80vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-container {
+    width: 30vw;
+    color: white;
+  }
+}

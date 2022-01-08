@@ -1,3 +1,4 @@
+import "./App.css";
 import Dashboard from "./pages/Dashboard";
 import TransactionRecord from "./pages/TransactionRecord";
 import Navbar from "./pages/Navbar";
