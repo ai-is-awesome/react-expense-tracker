@@ -8,22 +8,28 @@ import { addUser } from "../firebase/db";
 import Spinner from "./Spinner";
 import SmartButton from "../components/SmartButton";
 import { Link } from "react-router-dom";
+import Message from "./Message";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, showError] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { signUp, user, authReady } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const signUpHandler = (e) => {
     setLoading(true);
+    setError("");
     e.preventDefault();
     signUp(email, password)
       .then((userdetails) => {
         console.log("sign up success!");
+        setError("");
+      })
+      .catch((e) => {
+        setError(e.message);
       })
       .finally(() => {
         setLoading(false);
@@ -107,6 +113,7 @@ export default function SignUp() {
           </div>
         </div>
         <SmartButton buttonText={"SIGN UP!"} loading={loading} />
+        {error && <Message type={"error"} message={error} />}
         <Link to={"/login"} className="mt-8 text-purple-400">
           Already Registered, click here to login
         </Link>
